@@ -4,5 +4,6 @@ cogs = [
     'cogs.selfAssign',
     'cogs.Fun',
     'cogs.joinLeave',
+    'cogs.Overwatch',
     'config.config'
 ]
