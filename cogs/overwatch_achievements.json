@@ -1,0 +1,15 @@
+{
+  "General": {
+    "blackjack": "Earn 21 postgame cards in quick or competitive play",
+    "centenary": "Win 100 games in quick or competitive play.",
+    "decked_out": "Collect 50 unlocks for a single hero.",
+    "decorated": "Earn 50 postgame medals in quick or competitive play.",
+    "the_friend_zone": "Play a quick or competitive play game in a group with a friend.",
+    "level_10": "Reach level 10.",
+    "level_25": "Reach level 25.",
+    "level_50": "Reach level 50.",
+    "the_path_is_closed": "Destroy 3 of Symmetra's Teleporters in a single quick or competitive game.",
+    "survival_expert": "Use Health Packs to heal 900 health in a single life in quick or competitive play.",
+    "undying": "Get a 20 player kill streak in a quick or competitive game.Reward: Tea Time Spray"
+  }
+}
