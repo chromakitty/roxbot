@@ -1,4 +1,8 @@
 import random
+import json
+import os
+import requests
+import aiohttp
 from libs.scrapper.scrapper import scrapper
 from discord.ext.commands import bot
 
@@ -137,6 +141,56 @@ class Fun():
 		else:
 			text = ""
 		return await self.bot.say(text + url)
+
+	@bot.command(pass_context=True)
+	async def upload(self, ctx):
+		"""
+		Uploads selected file to the host, thanks to the fact that
+		every pomf.se based site has pretty much the same architecture.
+		"""
+		sites = [
+			["https://comfy.moe/", 2147483648],
+			["https://safe.moe/api/", 209715200],
+			["http://up.che.moe/", 52428800],
+			["https://mixtape.moe/", 104857600],
+			["https://pomf.cat/", 78643200],
+			["https://sugoi.vidyagam.es/", 104857600],
+			["https://doko.moe/", 2147483648],
+			["https://pomfe.co/", 104857600],
+			["https://pomf.space/", 268435456],
+			["https://vidga.me/", 104857600],
+			["https://pomf.pyonpyon.moe/", 52428800]
+		] # List of pomf clone sites and upload limits
+
+
+		await self.bot.send_typing(ctx.message.channel)
+		if ctx.message.attachments:
+			urls = []
+			for attachment in ctx.message.attachments:
+				name = attachment['url'].split("/")[-1]
+				# Download File
+				with aiohttp.ClientSession() as session:
+					async with session.get(attachment['url']) as img:
+						with open(name, 'wb') as f:
+							f.write(await img.read())
+				# Site choice, shouldn't need an upload size check since max upload for discord atm is 50MB
+				site = random.choice(sites)
+
+				# Upload file
+				try:
+					with open(name, 'rb') as f:
+						answer = requests.post(url=site+"upload.php",files={'files[]': f.read()})
+						response = json.loads(answer.text)
+						file_name_1 = response["files"][0]["url"].replace("\\", "")
+					urls.append(file_name_1)
+				except Exception as e:
+					print(e)
+					print(name + ' couldn\'t be uploaded to ' + site)
+				os.remove(name)
+			msg = "".join(urls)
+			return await self.bot.say(msg)
+		else:
+			return await self.bot.say("Send me shit to upload nig")
 
 
 def setup(Bot):
