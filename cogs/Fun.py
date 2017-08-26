@@ -165,6 +165,8 @@ class Fun():
 
 		await self.bot.send_typing(ctx.message.channel)
 		if ctx.message.attachments:
+			# Site choice, shouldn't need an upload size check since max upload for discord atm is 50MB
+			site = random.choice(sites)[0]
 			urls = []
 			for attachment in ctx.message.attachments:
 				name = attachment['url'].split("/")[-1]
@@ -173,9 +175,6 @@ class Fun():
 					async with session.get(attachment['url']) as img:
 						with open(name, 'wb') as f:
 							f.write(await img.read())
-				# Site choice, shouldn't need an upload size check since max upload for discord atm is 50MB
-				site = random.choice(sites)
-
 				# Upload file
 				try:
 					with open(name, 'rb') as f:
